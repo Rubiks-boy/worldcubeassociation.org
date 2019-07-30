@@ -247,13 +247,17 @@ class RegistrationsController < ApplicationController
 
     case params[:registrations_action]
     when "accept-selected"
-      registrations.each do |registration|
-        if !registration.accepted?
-          registration.update!(accepted_at: Time.now, accepted_by: current_user.id, deleted_at: nil)
-          RegistrationsMailer.notify_registrant_of_accepted_registration(registration).deliver_later
+      if !@competition.competitor_limit_enabled? || @competition.registrations.accepted.size + registrations.reject(&:accepted?).size <= @competition.competitor_limit
+        registrations.each do |registration|
+          if !registration.accepted?
+            registration.update!(accepted_at: Time.now, accepted_by: current_user.id, deleted_at: nil)
+            RegistrationsMailer.notify_registrant_of_accepted_registration(registration).deliver_later
+          end
         end
+        flash.now[:success] = I18n.t('registrations.flash.accepted_and_mailed', count: registrations.length)
+      else
+        flash.now[:danger] = I18n.t('registrations.flash.over_competitor_limit', count: registrations.length)
       end
-      flash.now[:success] = I18n.t('registrations.flash.accepted_and_mailed', count: registrations.length)
     when "reject-selected"
       registrations.each do |registration|
         if !registration.pending?

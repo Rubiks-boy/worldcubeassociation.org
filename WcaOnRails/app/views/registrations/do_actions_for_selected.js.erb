@@ -15,22 +15,30 @@ var $pendingTable = $registrationsTable.filter('.pending');
 var $acceptedTable = $registrationsTable.filter('.accepted');
 var $deletedTable = $registrationsTable.filter('.deleted');
 
-var selectedRows = $pendingTable.bootstrapTable('getSelections').concat($acceptedTable.bootstrapTable('getSelections')).concat($deletedTable.bootstrapTable('getSelections'));
+var notAcceptedSelectedRows = $pendingTable.bootstrapTable('getSelections').concat($deletedTable.bootstrapTable('getSelections'));
+var selectedRows = notAcceptedSelectedRows.concat($acceptedTable.bootstrapTable('getSelections'));
 var selectedRowIds = selectedRows.map(function(row) { return row._id }); // row._id contains <tr> id
 
-$registrationsTable.each(function() {
-  $(this).bootstrapTable('remove', {
-    field: '_id',
-    values: selectedRowIds,
+function remove() {
+  $registrationsTable.each(function() {
+    $(this).bootstrapTable('remove', {
+      field: '_id',
+      values: selectedRowIds,
+    });
   });
-});
+}
 
 <% case params[:registrations_action] %>
 <% when "accept-selected" %>
-  $acceptedTable.bootstrapTable('append', selectedRows);
+  if(!<%= @competition.competitor_limit_enabled? %> || $acceptedTable.bootstrapTable('getData').length + notAcceptedSelectedRows.length <= <%= @competition.competitor_limit %>) {
+    remove();
+    $acceptedTable.bootstrapTable('append', selectedRows);
+  }
 <% when "reject-selected" %>
+  remove();
   $pendingTable.bootstrapTable('append', selectedRows);
 <% when "delete-selected" %>
+  remove();
   $deletedTable.bootstrapTable('append', selectedRows);
 <% end %>
 

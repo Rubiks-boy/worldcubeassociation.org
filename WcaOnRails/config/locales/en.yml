@@ -462,7 +462,7 @@ en:
         start_date: ""
         use_wca_registration: ""
         competitor_limit_enabled: "Although it is not required by the Regulations to provide a competitor limit, it's highly recommended to do so."
-        competitor_limit: "The number of competitors allowed in this competition. For now this number is informational only, and does not yet prevent more people from registering. We are working on adding explicit support for this to the registration flow, but it requires some other work first."
+        competitor_limit: "The number of competitors allowed in this competition."
         competitor_limit_reason: "What is the reason for the limit on competitors? Please fill this out in English!"
         venueAddress: ""
         championship_type: ""
@@ -872,6 +872,9 @@ en:
       accepted_and_mailed:
         one: "Registration accepted! Email notification sent."
         other: "Registrations accepted! Email notifications sent."
+      over_competitor_limit:
+        one: "Accepting this registration would exceed the competitor limit"
+        other: "Accepting these registrations would exceed the competitor limit"
       rejected_and_mailed:
         one: "Registration moved to waiting list"
         other: "Registrations moved to waiting list"
