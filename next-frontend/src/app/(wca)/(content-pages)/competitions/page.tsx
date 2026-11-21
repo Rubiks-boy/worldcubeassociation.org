@@ -260,6 +260,7 @@ export default function CompetitionsPage() {
       <ClientOnly>
         {!session.isPending && !session.data && (
           <RemovableCard
+            storageKey="whyCompeteDismissed"
             imageUrl="newcomer.png"
             heading="Why Compete?"
             descriptionAs="div"
