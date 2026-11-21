@@ -33,14 +33,14 @@ export default function WhyCompeteCard() {
     >
       <Image
         src="newcomer.png"
-        alt="removable card image"
+        alt={t("competitions.index.why_compete_image_alt")}
         maxW="1/3"
         aspectRatio={{ base: "auto", lg: "landscape" }}
       />
       <Box flex="1" minW="0">
         <Card.Body gap={{ base: "3", md: "4" }}>
           <HStack justifyContent="space-between">
-            <Card.Title>Why Compete?</Card.Title>
+            <Card.Title>{t("competitions.index.why_compete_title")}</Card.Title>
             <CloseButton
               variant="ghost"
               color="currentColor"
@@ -64,7 +64,7 @@ export default function WhyCompeteCard() {
             alignSelf="flex-start"
             textStyle={{ base: "xs", md: "sm" }}
           >
-            <Link href="/faq">Learn More</Link>
+            <Link href="/faq">{t("homepage.learn_more")}</Link>
           </Button>
         </Card.Body>
       </Box>
